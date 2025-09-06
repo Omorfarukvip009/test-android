@@ -4,13 +4,8 @@ services:
     env: docker
     plan: free
     dockerfilePath: ./Dockerfile
-    dockerCredentials:
-      username: ${DOCKER_USERNAME}
-      password: ${DOCKER_PASSWORD}
     autoDeploy: true
-    envVars:
-      - key: WEB_VNC
-        value: "true"
+    healthCheckPath: "/"
     ports:
       - 6080
       
