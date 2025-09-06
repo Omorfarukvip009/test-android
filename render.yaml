@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: android-cloud
+    env: docker
+    plan: free
+    autoDeploy: true
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DEVICE
+        value: "Samsung Galaxy S10"
+      - key: WEB_VNC
+        value: "true"
+    healthCheckPath: "/"
+    ports:
+      - 6080
