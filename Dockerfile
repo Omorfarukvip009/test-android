@@ -1,13 +1,25 @@
-# Lightweight Android 8.1 container with VNC + noVNC web access
-FROM sickcodes/docker-android:8.1
+# Use a small base image
+FROM ubuntu:20.04
 
-# Expose the noVNC web interface on port 6080
+# Disable interactive prompts during install
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies: X server, noVNC, openbox, qemu, etc.
+RUN apt-get update && apt-get install -y \
+    wget unzip curl x11vnc xvfb fluxbox websockify \
+    qemu-kvm qemu-system-x86 openjdk-8-jre-headless \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download & setup noVNC
+RUN mkdir -p /opt/novnc && \
+    wget -qO- https://github.com/novnc/noVNC/archive/refs/heads/master.zip | unzip -d /opt/ && \
+    mv /opt/noVNC-master/* /opt/novnc/ && rm -rf /opt/noVNC-master
+
+# Add a simple startup script
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
 EXPOSE 6080
 
-# Set some environment variables for better performance
-ENV WEB_VNC=true \
-    DEVICE="Samsung Galaxy S10" \
-    ENABLE_ADB=true
-
-# Start Android + noVNC
-CMD ["/bin/bash"]
+CMD ["/start.sh"]
