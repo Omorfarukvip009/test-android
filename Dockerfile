@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     wget unzip curl x11vnc xvfb fluxbox websockify \
-    qemu-kvm qemu-system-x86 openjdk-8-jre-headless \
+    qemu-kvm qemu-system-x86 qemu-utils openjdk-8-jre-headless \
     git python3 python3-pip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
