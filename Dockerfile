@@ -1,8 +1,13 @@
-# Use docker-android prebuilt image (Android 11)
-FROM budtmo/docker-android-x86-9.0
+# Lightweight Android 8.1 container with VNC + noVNC web access
+FROM sickcodes/docker-android:8.1
 
-# Expose web interface (noVNC) on port 6080
+# Expose the noVNC web interface on port 6080
 EXPOSE 6080
 
+# Set some environment variables for better performance
+ENV WEB_VNC=true \
+    DEVICE="Samsung Galaxy S10" \
+    ENABLE_ADB=true
+
 # Start Android + noVNC
-CMD ["/bin/sh", "-c", "/entrypoint.sh"]
+CMD ["/bin/bash"]
